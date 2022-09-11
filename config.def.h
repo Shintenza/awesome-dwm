@@ -116,8 +116,9 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbordercolor, "-sf", selfgcolor, NULL };
-static const char *passmenu[] = { "passmenu", "-fn", dmenufont, "-p", "Search: ", "-F"};
+static char dmenuheight[] = "24";
+static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-h", dmenuheight, "-F", "-p", "Run:", NULL };
+static const char *passmenu[] = { "passmenu", "-fn", dmenufont, "-p", "Search:", "-F", "-h", dmenuheight, NULL };
 static const char *termcmd[]  = { "alacritty", NULL };
 
 /*
