@@ -1,5 +1,6 @@
 /* See LICENSE file for copyright and license details. */
 
+#include <X11/XF86keysym.h>
 /* appearance */
 static const int horizpadbar        = 2;        /* horizontal padding for statusbar */
 static const int vertpadbar         = 7;        /* vertical padding for statusbar */
@@ -24,12 +25,12 @@ static const unsigned int gappoh    = 7;       /* horiz outer gap between window
 static const unsigned int gappov    = 7;       /* vert outer gap between windows and screen edge */
 static       int smartgaps          = 0;        /* 1 means no outer gap when there is only one window */
 
-static char normbgcolor[]           = "#222222";
+static char normbgcolor[]           = "#1e222a";
 static char normbordercolor[]       = "#444444";
 static char normfgcolor[]           = "#bbbbbb";
 static char selfgcolor[]            = "#eeeeee";
 static char selbordercolor[]        = "#005577";
-static char selbgcolor[]            = "#005577";
+static char selbgcolor[]            = "#3f495c";
 
 static char *colors[][3]      = {
 	/*               fg         bg         border   */
@@ -43,18 +44,33 @@ static char *colors[][3]      = {
 };
 
 /* tagging */
-static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+static const char *tags[] = { "", "", "", "﬏", "阮", "", ""};
+
+static const char *tagsel[][2][2] = {
+	/*      norm                          sel       */
+	/*  fg          bg              fg          bg  */
+	{ { "#61afef", normbgcolor }, { "#61afef", selbgcolor } },
+	{ { "#e06c75", normbgcolor }, { "#e06c75", selbgcolor } },
+	{ { "#caaa6a", normbgcolor }, { "#caaa6a", selbgcolor } },
+	{ { "#7ec7a2", normbgcolor }, { "#7ec7a2", selbgcolor } },
+	{ { "#1cd560", normbgcolor }, { "#1cd560", selbgcolor } },
+	{ { "#16b2e6", normbgcolor }, { "#16b2e6", selbgcolor } },
+	{ { "#535760", normbgcolor }, { "#535760", selbgcolor } },
+};
 
 static const Rule rules[] = {
 	/* xprop(1):
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class     instance  title           tags mask  isfloating  isterminal  noswallow  monitor */
-	{ "Gimp",    NULL,     NULL,           0,         1,          0,           0,        -1 },
-	{ "Firefox", NULL,     NULL,           1 << 8,    0,          0,          -1,        -1 },
-	{ "St",      NULL,     NULL,           0,         0,          1,           0,        -1 },
-	{ NULL,      NULL,     "Event Tester", 0,         0,          0,           1,        -1 }, /* xev */
+	/* class                    instance  title                 tags mask  isfloating  isterminal  noswallow    monitor */
+	{ "Brave-browser",          NULL,     NULL,                 1 << 1,         0,          0,          0,          -1 },
+	{ "discord",                NULL,     NULL,                 1 << 2,         0,          0,          0,          -1 },
+	{ "neovide",                NULL,     NULL,                 1 << 3,         0,          0,          0,          -1 },
+	{ "Spotify",                NULL,     NULL,                 1 << 4,         0,          0,          0,          -1 },
+	{ "alacritty",              NULL,     NULL,                      0,         0,          1,          0,          -1 },
+	{ "St",                     NULL,     NULL,                      0,         0,          1,          0,          -1 },
+	{ NULL,                     NULL,     "Event Tester",            0,         0,          0,          1,          -1 }, /* xev */
 };
 
 /* layout(s) */
@@ -101,6 +117,7 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbordercolor, "-sf", selfgcolor, NULL };
+static const char *passmenu[] = { "passmenu", "-fn", dmenufont, "-p", "Search: ", "-F"};
 static const char *termcmd[]  = { "alacritty", NULL };
 
 /*
@@ -128,6 +145,7 @@ static const Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_d,      spawn,          {.v = dmenucmd } },
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
+	{ MODKEY,                       XK_p,      spawn,           {.v = passmenu } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY|ShiftMask,             XK_j,      rotatestack,    {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_k,      rotatestack,    {.i = -1 } },
@@ -163,7 +181,7 @@ static const Key keys[] = {
 	{ MODKEY|ControlMask,           XK_period, cyclelayout,    {.i = +1 } },
 	{ MODKEY,                       XK_space,  setlayout,      {0} },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
-	{ MODKEY|ShiftMask,             XK_f,      togglefullscr,  {0} },
+	{ MODKEY|ControlMask,           XK_f,      togglefullscr,  {0} },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
 	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
 	{ MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
@@ -181,6 +199,26 @@ static const Key keys[] = {
 	TAGKEYS(                        XK_9,                      8)
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
 	{ MODKEY|ControlMask|ShiftMask, XK_q,      quit,           {1} }, 
+
+	{ MODKEY|ShiftMask,             XK_b,      spawn,      		SHCMD("brave")},
+	{ MODKEY|ShiftMask,             XK_f,      spawn,      		SHCMD("alacritty -e ranger")},
+	{ MODKEY|ShiftMask,             XK_g,      spawn,      		SHCMD("steam")},
+	{ MODKEY|ShiftMask,             XK_m,      spawn,      		SHCMD("geary")},
+	{ MODKEY|ShiftMask,             XK_d,      spawn,      		SHCMD("discord")},
+	{ MODKEY|ShiftMask,             XK_s,      spawn,      		SHCMD("spotify")},
+	{ MODKEY|ShiftMask,             XK_v,      spawn,      		SHCMD("code")},
+	{ MODKEY|ShiftMask,             XK_t,      spawn,      		SHCMD("thunar")},
+	{ MODKEY,             			XK_Print,  spawn,           SHCMD("scrot ~/Pictures/screenshot-$(date +%F_%T).png")}, 
+	{ MODKEY|ShiftMask,             XK_Print,  spawn,           SHCMD("maim -s | xclip -selection clipboard -t image/png")},
+
+	{ 0,             				XF86XK_AudioMute,    		spawn,   SHCMD("pactl set-sink-mute @DEFAULT_SINK@ toggle; pkill -RTMIN+6 dwmblocks") },
+	{ 0,             				XF86XK_AudioLowerVolume,    spawn,   SHCMD("pactl set-sink-volume @DEFAULT_SINK@ -10%; pkill -RTMIN+6 dwmblocks") },
+	{ 0,             				XF86XK_AudioRaiseVolume,    spawn,   SHCMD("pactl set-sink-volume @DEFAULT_SINK@ +10%; pkill -RTMIN+6 dwmblocks") },
+	{ 0,             				XF86XK_MonBrightnessDown,   spawn,   SHCMD("xbacklight -dec 10; pkill -RTMIN+4 dwmblocks") },
+	{ 0,             				XF86XK_MonBrightnessUp,    	spawn,   SHCMD("xbacklight -inc 10; pkill -RTMIN+4 dwmblocks") },
+	{ 0,             				XF86XK_AudioPlay ,    		spawn,   SHCMD("playerctl play-pause") },
+	{ 0,             				XF86XK_AudioNext,    		spawn,   SHCMD("playerctl next") },
+	{ 0,             				XF86XK_AudioPrev,    		spawn,   SHCMD("playerctl previous") },
 };
 
 /* button definitions */
