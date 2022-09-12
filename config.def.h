@@ -25,37 +25,47 @@ static const unsigned int gappoh    = 7;       /* horiz outer gap between window
 static const unsigned int gappov    = 7;       /* vert outer gap between windows and screen edge */
 static       int smartgaps          = 0;        /* 1 means no outer gap when there is only one window */
 
-static char normbgcolor[]           = "#1e222a";
-static char normbordercolor[]       = "#444444";
-static char normfgcolor[]           = "#bbbbbb";
-static char selfgcolor[]            = "#eeeeee";
+/* bar status colors */
+static char statusbgcolor[] = "#1e222a";
+static char statusfgcolor[] = "#bbbbbb";
+/* bar info colors */
+static char norminfobgcolor[] = "#1e222a";
+static char norminfofgcolor[] = "#bbbbbb";
+static char selinfobgcolor[] = "#3f495c";
+static char selinfofgcolor[] = "#eeeeee";
+/* bar tags colors */
+static char normtagsbgcolor[] = "#1e222a";
+static char normtagsfgcolor[] = "#bbbbbb";
+static char seltagsbgcolor[] = "#3f495c";
+static char seltagsfgcolor[] = "#eeeeee";
+/* border colors */
 static char selbordercolor[]        = "#005577";
-static char selbgcolor[]            = "#3f495c";
+static char normbordercolor[]       = "#444444";
 
 static char *colors[][3]      = {
-	/*               fg         bg         border   */
-	[SchemeNorm] = { normfgcolor, normbgcolor, normbordercolor },
-	[SchemeSel]  = { selfgcolor, selbgcolor,  selbgcolor  },
-	[SchemeStatus]  = { normfgcolor, normbgcolor,  "#000000"  }, // Statusbar right {text,background,not used but cannot be empty}
-	[SchemeTagsSel]  = { selfgcolor, selbgcolor,  "#000000"  }, // Tagbar left selected {text,background,not used but cannot be empty}
-	[SchemeTagsNorm]  = { normfgcolor, normbgcolor,  "#000000"  }, // Tagbar left unselected {text,background,not used but cannot be empty}
-	[SchemeInfoSel]  = { selfgcolor, selbgcolor,  "#000000"  }, // infobar middle  selected {text,background,not used but cannot be empty}
-	[SchemeInfoNorm]  = { normfgcolor, normbgcolor,  "#000000"  }, // infobar middle  unselected {text,background,not used but cannot be empty}
+	/*                      fg                  bg                  border   */
+	[SchemeNorm] =          { statusfgcolor,    statusbgcolor,      normbordercolor },
+	[SchemeSel]  =          { selinfofgcolor,   selinfobgcolor,     selbordercolor  },
+	[SchemeStatus]  =       { statusfgcolor,    statusbgcolor,      "#000000"  }, // Statusbar right {text,background,not used but cannot be empty}
+	[SchemeTagsSel]  =      { seltagsfgcolor,   seltagsbgcolor,     "#000000"  }, // Tagbar left selected {text,background,not used but cannot be empty}
+	[SchemeTagsNorm]  =     { normtagsfgcolor,  normtagsbgcolor,    "#000000"  }, // Tagbar left unselected {text,background,not used but cannot be empty}
+	[SchemeInfoSel]  =      { selinfofgcolor,   selinfobgcolor,     "#000000"  }, // infobar middle  selected {text,background,not used but cannot be empty}
+	[SchemeInfoNorm]  =     { norminfofgcolor,  norminfobgcolor,    "#000000"  }, // infobar middle  unselected {text,background,not used but cannot be empty}
 };
 
 /* tagging */
 static const char *tags[] = { "", "", "", "﬏", "阮", "", ""};
 
 static const char *tagsel[][2][2] = {
-	/*      norm                          sel       */
-	/*  fg          bg              fg          bg  */
-	{ { "#61afef", normbgcolor }, { "#61afef", selbgcolor } },
-	{ { "#e06c75", normbgcolor }, { "#e06c75", selbgcolor } },
-	{ { "#caaa6a", normbgcolor }, { "#caaa6a", selbgcolor } },
-	{ { "#7ec7a2", normbgcolor }, { "#7ec7a2", selbgcolor } },
-	{ { "#1cd560", normbgcolor }, { "#1cd560", selbgcolor } },
-	{ { "#16b2e6", normbgcolor }, { "#16b2e6", selbgcolor } },
-	{ { "#535760", normbgcolor }, { "#535760", selbgcolor } },
+	/*  norm                            sel       */
+	/*  fg         bg                   fg         bg  */
+	{ { "#61afef", normtagsbgcolor }, { "#61afef", seltagsbgcolor } },
+	{ { "#e06c75", normtagsbgcolor }, { "#e06c75", seltagsbgcolor } },
+	{ { "#caaa6a", normtagsbgcolor }, { "#caaa6a", seltagsbgcolor } },
+	{ { "#7ec7a2", normtagsbgcolor }, { "#7ec7a2", seltagsbgcolor } },
+	{ { "#1cd560", normtagsbgcolor }, { "#1cd560", seltagsbgcolor } },
+	{ { "#16b2e6", normtagsbgcolor }, { "#16b2e6", seltagsbgcolor } },
+	{ { "#535760", normtagsbgcolor }, { "#535760", seltagsbgcolor } },
 };
 
 static const Rule rules[] = {
@@ -127,12 +137,6 @@ static const char *termcmd[]  = { "alacritty", NULL };
 ResourcePref resources[] = {
 		{ "font",               STRING,  &font },
 		{ "dmenufont",          STRING,  &dmenufont },
-		{ "normbgcolor",        STRING,  &normbgcolor },
-		{ "normbordercolor",    STRING,  &normbordercolor },
-		{ "normfgcolor",        STRING,  &normfgcolor },
-		{ "selbgcolor",         STRING,  &selbgcolor },
-		{ "selbordercolor",     STRING,  &selbordercolor },
-		{ "selfgcolor",         STRING,  &selfgcolor },
 		{ "borderpx",          	INTEGER, &borderpx },
 		{ "snap",          		INTEGER, &snap },
 		{ "showbar",          	INTEGER, &showbar },
@@ -140,6 +144,18 @@ ResourcePref resources[] = {
 		{ "nmaster",          	INTEGER, &nmaster },
 		{ "resizehints",       	INTEGER, &resizehints },
 		{ "mfact",      	 	FLOAT,   &mfact },
+        { "statusbgcolor",      STRING,  &statusbgcolor },
+        { "statusfgcolor",      STRING,  &statusfgcolor },
+        { "norminfobgcolor",    STRING,  &norminfobgcolor },
+        { "norminfofgcolor",    STRING,  &norminfofgcolor },
+        { "selinfobgcolor",     STRING,  &selinfobgcolor },
+        { "selinfofgcolor",     STRING,  &selinfofgcolor },
+        { "normtagsbgcolor",    STRING,  &normtagsbgcolor },
+        { "normtagsfgcolor",    STRING,  &normtagsfgcolor },
+        { "seltagsbgcolor",     STRING,  &seltagsbgcolor },
+        { "seltagsfgcolor",     STRING,  &seltagsfgcolor },
+        { "selbordercolor",     STRING,  &selbordercolor },
+        { "normbordercolor",    STRING,  &normbordercolor },
 };
 
 static const Key keys[] = {
