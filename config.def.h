@@ -78,7 +78,7 @@ static const Rule rules[] = {
 	{ "discord",                NULL,     NULL,                 1 << 2,         0,          0,          0,          -1 },
 	{ "neovide",                NULL,     NULL,                 1 << 3,         0,          0,          0,          -1 },
 	{ "Spotify",                NULL,     NULL,                 1 << 4,         0,          0,          0,          -1 },
-	{ "alacritty",              NULL,     NULL,                      0,         0,          1,          0,          -1 },
+	{ "Alacritty",              NULL,     NULL,                      0,         0,          1,          0,          -1 },
 	{ "St",                     NULL,     NULL,                      0,         0,          1,          0,          -1 },
 	{ NULL,                     NULL,     "Event Tester",            0,         0,          0,          1,          -1 }, /* xev */
 };
