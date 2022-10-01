@@ -214,9 +214,9 @@ static const Key keys[] = {
 	TAGKEYS(                        XK_7,                      6)
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
-	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
 	{ MODKEY|ControlMask|ShiftMask, XK_q,      quit,           {1} }, 
 
+	{ MODKEY|ShiftMask,             XK_q,      spawn,           SHCMD("sysmenu") },
 	{ MODKEY|ShiftMask,             XK_b,      spawn,      		SHCMD("firefox")},
 	{ MODKEY|ShiftMask,             XK_f,      spawn,      		SHCMD("alacritty -e ranger")},
 	{ MODKEY|ShiftMask,             XK_g,      spawn,      		SHCMD("steam")},
