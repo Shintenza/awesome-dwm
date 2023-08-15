@@ -4,7 +4,7 @@
 /* appearance */
 static const int horizpadbar        = 2;        /* horizontal padding for statusbar */
 static const int vertpadbar         = 7;        /* vertical padding for statusbar */
-static unsigned int borderpx  = 1;        /* border pixel of windows */
+static unsigned int borderpx  = 2;        /* border pixel of windows */
 static unsigned int snap      = 32;       /* snap pixel */
 static int showbar            = 1;        /* 0 means no bar */
 static int topbar             = 1;        /* 0 means bottom bar */
@@ -54,7 +54,7 @@ static char *colors[][3]      = {
 };
 
 /* tagging */
-static const char *tags[] = { "", "", "", "﬏", "阮", "", ""};
+static const char *tags[] = { "", "", "󰍩", "󰘐", "󰓇", "󰌔", ""};
 
 static const char *tagsel[][2][2] = {
 	/*  norm                            sel       */
@@ -74,7 +74,7 @@ static const Rule rules[] = {
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class                    instance  title                 tags mask  isfloating  isterminal  noswallow    monitor */
-	{ "Firefox",                NULL,     NULL,                 1 << 1,         0,          0,          0,          -1 },
+	{ "Brave-browser",          NULL,     NULL,                 1 << 1,         0,          0,          0,          -1 },
 	{ "discord",                NULL,     NULL,                 1 << 2,         0,          0,          0,          -1 },
 	{ "neovide",                NULL,     NULL,                 1 << 3,         0,          0,          0,          -1 },
 	{ "Spotify",                NULL,     NULL,                 1 << 4,         0,          0,          0,          -1 },
@@ -126,7 +126,7 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static char dmenuheight[] = "24";
+static char dmenuheight[] = "27";
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-h", dmenuheight, "-F", "-p", "Run:", NULL };
 static const char *passmenu[] = { "passmenu", "-fn", dmenufont, "-p", "Search:", "-F", "-h", dmenuheight, NULL };
 static const char *termcmd[]  = { "alacritty", NULL };
@@ -135,27 +135,27 @@ static const char *termcmd[]  = { "alacritty", NULL };
  * Xresources preferences to load at startup
  */
 ResourcePref resources[] = {
-		{ "font",               STRING,  &font },
-		{ "dmenufont",          STRING,  &dmenufont },
-		{ "borderpx",          	INTEGER, &borderpx },
-		{ "snap",          		INTEGER, &snap },
-		{ "showbar",          	INTEGER, &showbar },
-		{ "topbar",          	INTEGER, &topbar },
-		{ "nmaster",          	INTEGER, &nmaster },
-		{ "resizehints",       	INTEGER, &resizehints },
-		{ "mfact",      	 	FLOAT,   &mfact },
-        { "statusbgcolor",      STRING,  &statusbgcolor },
-        { "statusfgcolor",      STRING,  &statusfgcolor },
-        { "norminfobgcolor",    STRING,  &norminfobgcolor },
-        { "norminfofgcolor",    STRING,  &norminfofgcolor },
-        { "selinfobgcolor",     STRING,  &selinfobgcolor },
-        { "selinfofgcolor",     STRING,  &selinfofgcolor },
-        { "normtagsbgcolor",    STRING,  &normtagsbgcolor },
-        { "normtagsfgcolor",    STRING,  &normtagsfgcolor },
-        { "seltagsbgcolor",     STRING,  &seltagsbgcolor },
-        { "seltagsfgcolor",     STRING,  &seltagsfgcolor },
-        { "selbordercolor",     STRING,  &selbordercolor },
-        { "normbordercolor",    STRING,  &normbordercolor },
+	{ "font",               STRING,  &font },
+	{ "dmenufont",          STRING,  &dmenufont },
+	{ "borderpx",          	INTEGER, &borderpx },
+	{ "snap",          			INTEGER, &snap },
+	{ "showbar",          	INTEGER, &showbar },
+	{ "topbar",          		INTEGER, &topbar },
+	{ "nmaster",          	INTEGER, &nmaster },
+	{ "resizehints",       	INTEGER, &resizehints },
+	{ "mfact",      	 			FLOAT,   &mfact },
+	{ "statusbgcolor",      STRING,  &statusbgcolor },
+	{ "statusfgcolor",      STRING,  &statusfgcolor },
+	{ "norminfobgcolor",    STRING,  &norminfobgcolor },
+	{ "norminfofgcolor",    STRING,  &norminfofgcolor },
+	{ "selinfobgcolor",     STRING,  &selinfobgcolor },
+	{ "selinfofgcolor",     STRING,  &selinfofgcolor },
+	{ "normtagsbgcolor",    STRING,  &normtagsbgcolor },
+	{ "normtagsfgcolor",    STRING,  &normtagsfgcolor },
+	{ "seltagsbgcolor",     STRING,  &seltagsbgcolor },
+	{ "seltagsfgcolor",     STRING,  &seltagsfgcolor },
+	{ "selbordercolor",     STRING,  &selbordercolor },
+	{ "normbordercolor",    STRING,  &normbordercolor },
 };
 
 static const Key keys[] = {
@@ -216,25 +216,25 @@ static const Key keys[] = {
 	TAGKEYS(                        XK_9,                      8)
 	{ MODKEY|ControlMask|ShiftMask, XK_q,      quit,           {1} }, 
 
-	{ MODKEY|ShiftMask,             XK_q,      spawn,           SHCMD("sysmenu") },
-	{ MODKEY|ShiftMask,             XK_b,      spawn,      		SHCMD("firefox")},
-	{ MODKEY|ShiftMask,             XK_f,      spawn,      		SHCMD("alacritty -e ranger")},
-	{ MODKEY|ShiftMask,             XK_g,      spawn,      		SHCMD("steam")},
-	{ MODKEY|ShiftMask,             XK_m,      spawn,      		SHCMD("geary")},
-	{ MODKEY|ShiftMask,             XK_d,      spawn,      		SHCMD("Discord")},
-	{ MODKEY|ShiftMask,             XK_s,      spawn,      		SHCMD("spotify")},
-	{ MODKEY|ShiftMask,             XK_t,      spawn,      		SHCMD("Thunar")},
-	{ MODKEY,             			XK_Print,  spawn,           SHCMD("maim ~/Pictures/screenshot-$(date +%F_%T).png")}, 
-	{ MODKEY|ShiftMask,             XK_Print,  spawn,           SHCMD("maim -s | xclip -selection clipboard -t image/png")},
+	{ MODKEY|ShiftMask,             XK_q,                       spawn,      SHCMD("sysmenu") },
+	{ MODKEY|ShiftMask,             XK_b,                       spawn,      SHCMD("brave --disable-features=UseChromeOSDirectVideoDecoder --enable-features=VaapiVideoDecoder")},
+	{ MODKEY|ShiftMask,             XK_f,                       spawn,      SHCMD("alacritty -e ranger")},
+	{ MODKEY|ShiftMask,             XK_g,                       spawn,      SHCMD("steam")},
+	{ MODKEY|ShiftMask,             XK_m,                       spawn,      SHCMD("geary")},
+	{ MODKEY|ShiftMask,             XK_d,                       spawn,      SHCMD("discord")},
+	{ MODKEY|ShiftMask,             XK_s,                       spawn,      SHCMD("spotify-launcher")},
+	{ MODKEY|ShiftMask,             XK_t,                       spawn,      SHCMD("Thunar")},
+	{ MODKEY,             					XK_Print,                   spawn,      SHCMD("maim ~/Pictures/screenshot-$(date +%F_%T).png")}, 
+	{ MODKEY|ShiftMask,             XK_Print,                   spawn,      SHCMD("maim -s | xclip -selection clipboard -t image/png")},
 
-	{ 0,             				XF86XK_AudioMute,    		spawn,   SHCMD("pactl set-sink-mute @DEFAULT_SINK@ toggle; pkill -RTMIN+6 dwmblocks") },
-	{ 0,             				XF86XK_AudioLowerVolume,    spawn,   SHCMD("pactl set-sink-volume @DEFAULT_SINK@ -10%; pkill -RTMIN+6 dwmblocks") },
-	{ 0,             				XF86XK_AudioRaiseVolume,    spawn,   SHCMD("pactl set-sink-volume @DEFAULT_SINK@ +10%; pkill -RTMIN+6 dwmblocks") },
-	{ 0,             				XF86XK_MonBrightnessDown,   spawn,   SHCMD("xbacklight -dec 10; pkill -RTMIN+4 dwmblocks") },
-	{ 0,             				XF86XK_MonBrightnessUp,    	spawn,   SHCMD("xbacklight -inc 10; pkill -RTMIN+4 dwmblocks") },
-	{ 0,             				XF86XK_AudioPlay ,    		spawn,   SHCMD("playerctl play-pause") },
-	{ 0,             				XF86XK_AudioNext,    		spawn,   SHCMD("playerctl next") },
-	{ 0,             				XF86XK_AudioPrev,    		spawn,   SHCMD("playerctl previous") },
+	{ 0,             				XF86XK_AudioMute,    								spawn,      SHCMD("pactl set-sink-mute @DEFAULT_SINK@ toggle; pkill -RTMIN+6 dwmblocks") },
+	{ 0,             				XF86XK_AudioLowerVolume,    				spawn,      SHCMD("pactl set-sink-volume @DEFAULT_SINK@ -10%; pkill -RTMIN+6 dwmblocks") },
+	{ 0,             				XF86XK_AudioRaiseVolume,    				spawn,      SHCMD("pactl set-sink-volume @DEFAULT_SINK@ +10%; pkill -RTMIN+6 dwmblocks") },
+	{ 0,             				XF86XK_MonBrightnessDown,   				spawn,      SHCMD("xbacklight -dec 10; pkill -RTMIN+4 dwmblocks") },
+	{ 0,             				XF86XK_MonBrightnessUp,    					spawn,      SHCMD("xbacklight -inc 10; pkill -RTMIN+4 dwmblocks") },
+	{ 0,             				XF86XK_AudioPlay ,    							spawn,      SHCMD("playerctl play-pause") },
+	{ 0,             				XF86XK_AudioNext,    								spawn,      SHCMD("playerctl next") },
+	{ 0,             				XF86XK_AudioPrev,    								spawn,      SHCMD("playerctl previous") },
 };
 
 /* button definitions */
