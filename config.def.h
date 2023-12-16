@@ -74,9 +74,10 @@ static const Rule rules[] = {
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class                    instance  title                 tags mask  isfloating  isterminal  noswallow    monitor */
-	{ "Brave-browser",          NULL,     NULL,                 1 << 1,         0,          0,          0,          -1 },
+	{ "firefox",          			NULL,     NULL,                 1 << 1,         0,          0,          0,          -1 },
 	{ "discord",                NULL,     NULL,                 1 << 2,         0,          0,          0,          -1 },
 	{ "neovide",                NULL,     NULL,                 1 << 3,         0,          0,          0,          -1 },
+	{ "VSCodium",               NULL,     NULL,                 1 << 3,         0,          0,          0,          -1 },
 	{ "Spotify",                NULL,     NULL,                 1 << 4,         0,          0,          0,          -1 },
 	{ "Alacritty",              NULL,     NULL,                      0,         0,          1,          0,          -1 },
 	{ "St",                     NULL,     NULL,                      0,         0,          1,          0,          -1 },
@@ -217,7 +218,8 @@ static const Key keys[] = {
 	{ MODKEY|ControlMask|ShiftMask, XK_q,      quit,           {1} }, 
 
 	{ MODKEY|ShiftMask,             XK_q,                       spawn,      SHCMD("sysmenu") },
-	{ MODKEY|ShiftMask,             XK_b,                       spawn,      SHCMD("brave --disable-features=UseChromeOSDirectVideoDecoder --enable-features=VaapiVideoDecoder")},
+	// { MODKEY|ShiftMask,             XK_b,                       spawn,      SHCMD("brave --disable-features=UseChromeOSDirectVideoDecoder --enable-features=VaapiVideoDecoder")},
+	{ MODKEY|ShiftMask,             XK_b,                       spawn,      SHCMD("firefox")},
 	{ MODKEY|ShiftMask,             XK_f,                       spawn,      SHCMD("alacritty -e ranger")},
 	{ MODKEY|ShiftMask,             XK_g,                       spawn,      SHCMD("steam")},
 	{ MODKEY|ShiftMask,             XK_m,                       spawn,      SHCMD("geary")},
